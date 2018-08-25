@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class EmployeeDAO {
 	@Autowired
-	EmployeeRepository employeeRepository;
+	private EmployeeRepository employeeRepository;
 	public Employee save(Employee emp) {
 		return employeeRepository.save(emp);
 	}

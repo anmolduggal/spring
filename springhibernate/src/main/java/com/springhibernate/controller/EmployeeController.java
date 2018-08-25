@@ -6,13 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springhibernate.dao.EmployeeDAO;
@@ -22,18 +19,18 @@ import com.springhibernate.model.Employee;
 @RequestMapping("/company")
 public class EmployeeController {
 @Autowired
-EmployeeDAO employeeDao;
+private EmployeeDAO employeeDao;
 
-@PostMapping("/employee")
+@RequestMapping(value = "/employee",method = RequestMethod.POST)
 public Employee createEmployee(@Valid @RequestBody Employee emp)
 {
 	return employeeDao.save(emp);
 }
-@GetMapping("/employee")
+@RequestMapping(value="/employee",method=RequestMethod.GET)
 public List<Employee> getAllEmployees(){
 	return employeeDao.findAll();
 }
-@GetMapping("/note/{id}")
+@RequestMapping(value="/note/{id}",method=RequestMethod.GET)
 public ResponseEntity<Employee> getEmployeeById(@PathVariable(value="id") Long empid){
 	Employee emp=employeeDao.findOne(empid);
 	if(emp==null) {
@@ -41,7 +38,7 @@ public ResponseEntity<Employee> getEmployeeById(@PathVariable(value="id") Long e
 	}
 	return ResponseEntity.ok().body(emp);
 }
-@PutMapping("/employee/{id}")
+@RequestMapping(value="/employee/{id}",method=RequestMethod.PUT)
 public ResponseEntity<Employee> updateEmployee(@PathVariable(value="id") Long empid ,@Valid @RequestBody Employee empDetails){
 	Employee emp=employeeDao.findOne(empid);
 	if(emp==null) {
@@ -54,7 +51,7 @@ public ResponseEntity<Employee> updateEmployee(@PathVariable(value="id") Long em
 	return ResponseEntity.ok().body(updateEmployee);
 	
 }
-@DeleteMapping("/employee/{id}")
+@RequestMapping(value="/employee/{id}",method=RequestMethod.DELETE)
 public ResponseEntity<Employee> deleteEmployee(@PathVariable(value="id") Long empid){
 	Employee emp=employeeDao.findOne(empid);
 	if(emp==null) {
